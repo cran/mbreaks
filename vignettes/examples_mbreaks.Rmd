@@ -1,0 +1,311 @@
+---
+title: "Estimating and testing for multiple structural changes with `mbreaks` package"
+author: "Linh Nguyen, Pierre Perron, Yohei Yamamoto"
+output: rmarkdown::html_vignette
+description: |
+  Estimate and test for structural changes using linear regression models with customized assumptions on data distribution 
+vignette: >
+  %\VignetteIndexEntry{Estimating and testing for multiple structural changes with `mbreaks` package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib 
+csl: journal-of-econometrics.csl
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "")
+library(mbreaks)
+```
+
+This vignette is intended for users who use `mbreaks` to estimate and test for linear regression models in the presence of multiple structural changes. The package offers a set of comprehensive tools which deal with both pure and partial structural change models. In particular, it provides the Sup F tests for 0 versus a known number of structural changes and the double maximum (UD max) tests for 0 versus an unknown number of structural changes. The sequential tests for $l$ versus $l+1$ structural changes are also available to determine the number of structural changes (@bai1998estimating, @bai2003computation). The package also includes methods of estimating the number of structural changes via information criteria (@yao1988estimating, @liu1997segmented) as well as a built-in function to visualize the fit of the estimated structural break model with the estimated number $m^*$ of structural changes. A comprehensive call to conduct all of the procedures contained in package is provided.
+
+
+## Econometric framework of `mbreaks` package
+
+The package `mbreaks` provides R users with minimum but comprehensive functions to analyze multiple structural changes in linear regression models in which the regressors and errors are non-trending. The framework is based on the econometric model of the following form:
+
+$$ y_t = x_t^{\prime}\beta + z_t^{\prime} \delta_j + u_t; \\
+t=T_{j-1}+1,...,T_j, {\quad}{\text{for}}{\quad}j=1,...,m+1$$
+where $\underset{(p \times 1)}{x_t}$ is a vector of regressors with fixed coefficients (if any) and $\underset{(q \times 1)}{z_t}$ is a vector of regressors with coefficients subject to change. The break dates are $t=T_j$ for $j=1,...,m$ and $T_0=0$ and $T_{m+1}=T$ so that $T$ is the entire sample size. If $p=0$, the model is called a pure structural change model, and if $p>0$, the model is called a partial structural change model. The twofold goals of this package is to enable user to:
+
+- Test for the presence of structural changes by:
+  + supF tests for no structural change versus a known number of structural changes: `dotest()` (@bai1998estimating)
+  + UDmax test for no structural change versus unknown number of structural changes: `dotest()` (@bai1998estimating)
+- Select the number of structural changes ($m^*$) by:
+  + sequential tests:
+    * Determine the number of structural changes by using $\sup F_T(l+1|l)$ test: `dosequa()` (@bai1998estimating,@bai2003computation)
+    * Estimate one break at a time by using the repartition method: `dorepart()` (@bai1997estimating)
+  + information criterion:
+    * Bayesian Information Criterion (BIC): `doorder()` (@yao1988estimating)
+    * Modified Schwarz Criterion (MSIC): `doorder()` (@liu1997segmented)
+
+If the number of structural changes is known (or specified), users can use `dofix()` function to estimate the model with the corresponding number of changes. There are 3 classes in the package, corresponding to 2 types of diagnostic tests and one for estimation based on the selected number of structural changes. In summary:
+
+* `sbtests`: S3 class returned from `dotest()` function. It includes summary of the supF tests and UDmax test with test statistics, critical values, and summary tables which could be viewed in the console by `print()` method or open in a separated tab by `View()`
+* `seqtests`: S3 class returned from `doseqtests()` function. It includes summary of the sequential tests for $l$ versus $l+1$ structural changes with test statistics, critical values and a summary table which could be viewed in the console via `print()` method or open in separated tab by `View()`
+* `model`: S3 class returned from estimation procedures above including `dosequa()`, `doorder()`, `dorepart()`, and `dofix()` of models with $m^*$ structural changes. The class `model` contains numerous information which is summarized comprehensively into 3 main tables: i) break dates (estimated break dates and corresponding asymptotic confidence intervals based on assumptions on the regressors and errors), ii) regime-specific coefficients (estimates in each regime and corrected standard errors based on assumptions on the regressors and errors) and iii) full-sample coefficients if $p>0$ (estimates and corrected standard errors based on assumptions on the regressors and errors). Besides the information presented in the 3 main tables, `model` contains fields (with majority of them are class `matrix`) which users can access by using operator `$` for further analysis in R such as fitted values, residuals and the name of procedure used.
+
+
+## Usage, arguments and examples
+
+### Usage of main functions in `mbreaks`
+
+The previous section introduced the framework on which `mbreaks` package is built and summarizes the classes of procedures available to users. In this section, we will illustrate the syntax of high-level functions and cover the arguments that users might want to customize to match their model with data and empirical strategy. 
+
+The `mbreaks` package designs high-level functions to have identical arguments with default values recommended by the literature to save users the burden. Users can use `mdl()`, a comprehensive function that invokes all high-level functions explained in previous section ^[Users can call independent functions to carry out specific procedures as outlined above instead of conducting all 6 main procedures provided by package via `mdl()`]:
+
+```{r estimate US rate}
+#the data set for the example is real.Rda
+data(real)
+#carry out all testing and estimating procedures via a single call
+rate = mdl('rate',data=real,eps1=0.15)
+#display the results from the procedures
+rate
+```
+
+Users should find the syntax minimal similar to `lm()` in `stats` package. It is required to specify the name of dependent variable $y$ followed by the two types of the regressors $z$ and $x$ from the data frame. Note that $z$ automatically includes a constant term. If the model is a pure structural change model, no $x$ is specified. If none of $z$ and $x$ are specified, the program assumes that this is a mean shift model (because a constant term is included in $z$ by default). The names of regressors must match the names used in the data frame, otherwise errors will be displayed and execution halted. As we will explain in the following section, the package prepares various options to be specified by users. These are set at default value if not specified in `mdl()` or any high-level functions of the procedures: `dotest()`, `dosequa()`, `doorder()`, `dorepart()`, and `dofix()`etc. 
+
+
+### Options for high-level functions
+
+  - The model requires a trimming value $\epsilon$ as a small interval of length $h = \lfloor \epsilon T\rfloor$ is required between any two adjacent segments. Users can modify $\epsilon$ in arguments passing to all high-level functions ^[The high level functions are `mdl()`, `dofix()`, `dosequa()`, `dorepart()`, `doorder()`, `dotest()`, `doseqtests()`] by setting $\epsilon{\quad} {\in}$ {0,0.05, 0.10, 0.15, 0.25}. ^[This argument is different from `eps` where `eps` sets the convergence criterion for iterative scheme when estimating partial change model.]. If the user's input value for `eps1` is invalid, it will be set to default value `eps1=0.15`. Also, if `eps1=0`, users can directly (and are required to explicitly specify) `h`in parameter for estimation. This option is only available to model selection via information criteria like `doorder()`, model estimation via `dofix()`. All procedures based on hypothesis testing such as `dorepart()`, `dosequa()`, `dotest()` and `doseqtests()` will not work with 0 trimming level `eps1`.
+  - Argument `m` specifies the maximum number of breaks considered in the model. This argument is automatically matched with `eps1` argument. If the program finds that `m` is invalid (non-positive or larger than that allowed by the sample size given the trimming value `eps1`), it will be set automatically to maximal breaks allowed by the sample size and the specified trimming level `eps1`. The default value is `m=5`.
+  - The following options related to assumptions on the structure of long-run covariance matrix of ${z_tu_t}$ and ${x_tu_t}$ (if any):
+    + `robust`: Allow for heteroskedasticity and autocorrelation in $u_t$. The default value is `robust=1`. If set to `robust=0`, the errors are assumed to be a martingale difference sequence.
+    + `hetvar`: Allow the variance of the errors $u_t$ to be different across segments. This option is not allowed to be `0` when `robust=1`.
+    + `prewhit`: Set to `1` if users want to prewhiten the residuals with an AR(1) process prior to estimating the long-run covariance matrix. The default value is `prewhit=1`.
+  - The following options related to the second moments of the regressors $z_t$ and $x_t$ (if any):
+    + `hetdat`: Set to `1` to allow the second moment matrices of $z_t$ and $x_t$ (if any) to be different across segments. Set to `0` otherwise. It is recommended to set `hetdat=1` for $p>0$. The default value is `hetdat=1`
+    + `hetq`: Set to `1` to allow the second moment matrices of $z_t$ and $x_t$ (if any) to be different across segments. This is used in construction of the confidence intervals for the break dates. If `hetq=0`, the second moment matrices of the regressors are assumed to be identical across segments. The default value is `hetq=1`.
+    +  `hetomega`: Set to `1` to allow the long-run covariance matrix of $z_t u_t$ to be different across segments. Set to `0` otherwise. This is used in construction of the confidence interval for the break dates. The default value is `hetomega=1`.
+  - Additional options specific to a partial structural change model: ^[The results of pure structural change models are not affected by these options]
+    + `maxi`: Maximum number of iterations if no convergence attained when running the iterative procedure to estimate partial structural change model. The default is `maxi=20`
+    + `eps`: Criterion for convergence of the iterative procedure. The default value is `eps=0.0001`
+    + `fixb`:  Set to 1 if users intend to provide initial values for $\beta$, where the initial values are supplied as matrix `betaini` of size $(p \times 1)$. If `betaini` is invalid, the program will throw an error and stop. 
+
+
+There are two options available to all high-level functions:
+
+  * `const`: Set to `1` to include constant in $z$. The default value is `const=1`. Users can turn off the constant in $z$ by setting `const=0`.
+  * `printd`: Set to `1` to print intermediate outputs from estimation procedures of the program to console. The default value is `printd=0`
+  
+Additional specific options:
+
+  * `doorder()`: option `ic`. Users can specify which information criterion used for selecting number of breaks. Available information criteria are modified BIC `'KT'` following @kurozumi2011model, `'BIC'` following @yao1988estimating and modified SIC `'LWZ'` following @liu1997segmented
+  * `dosequa()` and `dorepart()`: option `signif`. Option to specify significant level used in the sequential tests or the repartition method to determine the number of structural changes. The default value is `signif=2` corresponding to the 5% significance level. Other values are  `signif=1` for the 10%, `signif=3` for the 2.5%, and `signif=4` for the 1% significance levels, respectively.^[The above options are used extensively in all high-level functions of the program to specify required assumptions on structural break model. Additional options relating to formatting output in `plot_model()` function will not be explained in this section. For more information type `?plot_model` or `?mdl()` to understand the distinctions between two types of options]
+  
+## Empirical examples
+
+The vignette replicates 2 empirical exercises: i) US real interest rate and ii) New Keynesian Phillips curve.
+
+### US real interest rate
+
+@garcia1996analysis,@bai2003computation considered a mean shift model: 
+
+$$y_t = \mu_j + u_t, \quad\text{for } t = T_{j-1}+1,...,T_{j}\quad\text{and } j=1,...,m.$$ 
+
+for the US real interest rate series from 1961Q1 to 1986Q3. We allow heteroskedasticity and serial correlation in the errors $u_t$ by using the heteroskedasticity and autocorrelation consistent (HAC) long-run covariance estimate using the default setting (`robust=1`) with the prewhitened residuals also by the default setting (`prewhit=1`). Here, instead of invoking `mdl()`, we demonstrate the specific syntax to obtain the model with the number of structural changes $m^*$ selected by modified BIC information `'KT'`
+
+
+```{r graph_USr, fig.width=7}
+#estimating the mean-shift model with BIC (the default option is ic=`'KT'`, which use modified BIC as criterion)
+rate_mBIC = doorder('rate',data=real)
+#NOTE: equivalent to rate$KT; type rate$KT to compare with new result
+
+
+# visualization of estimated model with modified BIC (in the argument, we can replace rate$KT with rate_mBIC for exact same graph; recall that `$` is the operator to refer to field BIC in return list from mdl())
+plot_model(rate$KT, title = 'US Exchange rate')
+```
+
+The `plot_model()` function takes any estimated structural break model of class `model` and makes a graph with the following contents:
+
+  - The observed $y$, fitted $\hat{y}_{m^*}$ values from a model with $m^*$ breaks (estimated or pre-specified depending on function called) and fitted $\hat{y}_0$ from a no break model for a direct comparison
+  - The estimated break dates with labels in chronological order and confidence interval depends on `CI` argument (which is either 0.90 or 0.95) for respective dates.
+  - The confidence interval (also depends on argument `CI`) for fitted values $\hat{y}_{m^*}$^[ The option `CI` for `plot_model()` is used to specify the confidence interval around estimates of break dates and fitted values. For fitted values, it is computed as:
+  $$ (\hat{y}_t^{m^*-},\hat{y}_t^{m^*+}) = (x_t'(\hat{\beta}-Z_{CI} \hat{s.e.}(\hat{\beta}))+z_t'(\hat{\delta}-Z_{CI}\hat{s.e.}(\hat{\delta})),x_t'(\hat{\beta}+Z_{CI} \hat{s.e.}(\hat{\beta}))+z_t'(\hat{\delta}+Z_{CI}\hat{s.e.}(\hat{\delta})))$$ 
+  where 
+  $$ Z_{CI} = \begin{cases}
+ 1.96 & CI=0.95 \\
+ 1.65 & CI=0.90
+ \end{cases} 
+ $$
+ For break dates, the confidence interval is obtained via limiting distribution of $\hat{T}_j$ (@bai1998estimating)
+ ]
+  
+To show flexibility of class `model` in the package, we can reproduce a similar graph using information returned from stored variable ```rate_BIC```.
+
+```{r reproduce_graph_USr, fig.width=7}
+  #collect model information
+  m = rate_mBIC$nbreak           #number of breaks
+  y = rate_mBIC$y                #vector of dependent var
+  zreg = rate_mBIC$z             #matrix of regressors with changing coefs
+  date = rate_mBIC$date          #estimated date
+  fity = rate_mBIC$fitted.values #fitted values of model
+  bigT = length(y)
+  #compute the null model
+  fixb = solve((t(zreg) %*% zreg)) %*% t(zreg) %*% y
+  fity_fix = zreg%*%fixb    #fitted values of null model
+  
+  
+  #plots the model
+  tx = seq(1,bigT,1)
+  range_y = max(y)-min(y);
+  plot(tx,y,type='l',col="black", xlab='time',ylab="y", 
+       ylim=c(min(y)-range_y/10,max(y)+range_y/10),lty=1)
+  #plot fitted values series for break model
+  lines(tx, fity,type='l', col="blue",lty=2)
+  #plot fitted values series for null model
+  lines(tx, fity_fix,type='l', col="dark red",lty=2)
+  
+  #plot estimated dates + CIs
+  for (i in 1:m){
+    abline(v=date[i,1],lty=2)
+    if (rate_mBIC$CI[i,1] < 0){rate_mBIC$CI[i,1] = 0}
+    if(rate_mBIC$CI[i,2]>bigT){ rate_mBIC$CI[i,2]=bigT}
+    segments(rate_mBIC$CI[i,1],min(y)*(12+i/m)/10,rate_mBIC$CI[i,2],min(y)*(12+i/m)/10,lty=1,col='red')
+  }
+  
+  legend(0,max(y)+range_y/10,legend=c("observed y",paste(m,'break y'),"0 break y"),
+        lty=c(1,2,2), col=c("black","blue","red"), ncol=1)
+  
+```
+
+### New Keynesian Phillips Curve
+
+@perron2015using investigates the stability of New Keynesian Phillips curve model proposed by @gali1999inflation via linear model:
+
+$$\pi_t = \mu + \gamma \pi_{t-1} + \kappa x_t + \beta E_t \pi_{t+1} + u_t$$
+
+where $\pi_t$ is inflation rate at time t, $E_t$ is an expectation operator conditional on information available up to $t$, and $x_t$ is a real determinant of inflation. In this example, we will reproduce specific results of the paper with ready-to-use dataset:
+
+```{r reproduce_table_PY}
+data(nkpc)
+#x_t is GDP gap
+  z_name = c('inflag','ygap','inffut')
+  #we can invoke each test separately by using dotest() and doseqtests()
+  supF_ygap = dotest('inf',z_name,data=nkpc,prewhit = 0, eps1 = 0.1,m=1)
+  #z regressors' names are passed in the argument as an array, which equivalent to above argument call with z_name
+  seqF_ygap = doseqtests('inf',c('inflag','ygap','inffut'),data=nkpc,prewhit = 0, eps1=0.1)
+  #see test results
+  supF_ygap
+  seqF_ygap
+  
+  
+#x_t is labor income share 
+  #or invoke all tests using mdl() 
+  nkpc_lbs = mdl('inf',c('inflag','lbs','inffut'),data=nkpc,prewhit = 0, eps1=0.1, m=5)
+  nkpc_lbs$sbtests
+  nkpc_lbs$seqtests
+  
+```
+
+To replicate the results, we turn off `prewhit` option.
+
+
+The values of SupF `r round(nkpc_lbs$sbtests$ftest[1,1],1)` and F(2|1) `r  round(nkpc_lbs$seqtests$supfl[1,1],1)` test statistics are equivalent to 30.6 and 11.4 and the values `r round(supF_ygap$ftest[1,1],1)` and `r round(seqF_ygap$supfl[1,1],1)` are equivalent to 22.2 and 12.6 in table VI of @perron2015using . Given the Sup F(2|1) statistics in both regressions is smaller than the 10% critical values `r seqF_ygap$cv[1,1]` and both Sup F test statistic of 0 versus 1 break is larger than the 1% critical values `r supF_ygap$cv_supF[4,1]`, we conclude there is only 1 break detected.
+
+```{r re_estimate model given known breaks, echo = FALSE}
+#only need to re-estimate model with output gap since we use mdl() for income share, we can obtain the estimated sequential model from SEQ (which is returned from mdl() as a list element)
+# It is recommended to store desirable options as variables and set arguments = variables to avoid mistakes and save time
+eps1 = 0.1
+prewhit = 0
+ygap_fixn = dofix('inf',z_name,data=nkpc,fixn=1,prewhit=prewhit,eps1=eps1)
+#or use data-dependent sequential approach
+ygap_SEQ = dosequa('inf',z_name,data=nkpc,prewhit=prewhit,eps1=eps1)
+
+```
+
+```{r index_date, include=FALSE}
+ygap_date = ygap_fixn$date
+```
+The estimated break dates `r nkpc[ygap_date-1,2]`:Q`r nkpc[ygap_date-1,1]` also match 1991:Q1 in the reported table. The package exactly replicates results presented in @perron2015using. Given the estimated date from the sequential approach, we could split the sample into two subsamples and conduct the two stage least squares (2SLS) in each subsample as suggested by @perron2015using:
+
+
+```{r reproduce sub-sample IV estimates, include=FALSE}
+k=4
+#list of instruments
+instruments = c('inflag','lbslag','ygaplag','spreadlag','dwlag','dcplag')
+#list of endogenous
+regressors = c('inffut','inflag','lbs')
+
+bigT = dim(nkpc)[1]
+#independent variable
+Y = as.matrix(nkpc[,'inf',drop=FALSE])
+
+#form matrix of instruments
+Z = as.matrix(nkpc[,instruments])
+Z = cbind(rep(1,151),Z)
+#endogenous variable
+X_e = as.matrix(nkpc$inffut,drop=FALSE)
+#first stage regression 
+#X_res = (Z%*%solve(t(Z)%*%Z)%*%t(Z))%*%X_e
+#2nd stage regressors
+X = as.matrix(nkpc[,regressors])
+X = cbind(rep(1,151),X)
+
+#partition the regressors
+T1 = seq(1,ygap_date)
+T2 = seq(ygap_date+1,bigT)
+Y1 = Y[T1,1,drop=FALSE]
+Y2 = Y[T2,1,drop=FALSE]
+
+
+
+#### R version #####
+#multiplication difference
+X_resR = (Z%*%solve(t(Z)%*%Z)%*%t(Z))%*%X_e
+
+#2nd stage regressors
+XR = as.matrix(nkpc[,regressors])
+XR = cbind(rep(1,151),XR)
+XhR = as.matrix(nkpc[,c('inflag','lbs')])
+XhR = cbind(rep(1,151),XhR,X_resR)
+
+Xh1R = XhR[T1,]
+Xh2R = XhR[T2,]
+
+#full sample estimate:
+betaR = solve(t(XhR)%*%XhR)%*%t(XhR)%*%Y
+
+
+#subsample estimates:
+beta1R = solve(t(Xh1R)%*%Xh1R)%*%t(Xh1R)%*%Y1
+beta2R = solve(t(Xh2R)%*%Xh2R)%*%t(Xh2R)%*%Y2
+
+#compute variance
+res1R = Y1 - Xh1R%*%beta1R
+res2R = Y2 - Xh2R%*%beta2R
+#no prewhitening to match paper
+hac1R = mbreaks:::correct(Xh1R,res1R,0)
+hac2R = mbreaks:::correct(Xh2R,res2R,0)
+vhac1R = solve(t(Xh1R)%*%Xh1R)%*%hac1R%*%solve(t(Xh1R)%*%Xh1R) #4 regressors
+vhac1R = vhac1R*(125-k)
+vhac2R = solve(t(Xh2R)%*%Xh2R)%*%hac2R%*%solve(t(Xh2R)%*%Xh2R)
+vhac2R = vhac2R*(bigT-125-k)
+stdhac1R = sqrt(diag(vhac1R))
+stdhac2R = sqrt(diag(vhac2R))
+
+```
+
+Using the matrix formula for 2SLS estimator below in IV regression, we are able to obtain close estimates for first subsample as reported in table VII (@perron2015using). 
+$$ \hat{\beta}_{IV} = (X'P_ZX)^{-1}X'P_Zy \\
+P_Z = Z(Z'Z)^{-1}Z' $$ where $X = [X_1 \;\; X_2]$ is matrix of both endogenous regressor $X_1 = \pi_{t+1}$ and exogenous regressors $X_2 = [1,\pi_{t-1},x_t]$ and $Z = [Z_1 \;\; Z_2]$ is matrix of instruments including excluded instruments $Z_1$ and included instruments $Z_2 = [1,\pi_{t-1}]$. In total, the instruments used in first stage regression are lags of inflation, labor income share, output gap, interest spread, wage inflation and commodity price (6 instruments). 
+
+The IV estimates $\hat{\theta}_{IV}=(\hat{\mu},\hat{\gamma},\hat{\kappa},\hat{\beta})$ for 1960:Q1-1991:Q1 subsample and 1991:Q2-1 are
+
+``` {r display results with R results, echo=FALSE }
+colnames = c('$\\mu$','$\\gamma(\\pi_{t-1})$','$\\kappa(x_t)$','$\\beta(E_t\\pi_{t+1})$')
+rownames = c('1960:Q1-1991:Q1','$SE_1$','1991:Q2-1997:Q4','$SE_2$')
+IV_estimatesR = data.frame(round(t(beta1R),3))
+IV_estimatesR = rbind(IV_estimatesR,round(stdhac1R,3))
+IV_estimatesR = rbind(IV_estimatesR,round(t(beta2R),3))
+IV_estimatesR = rbind(IV_estimatesR,round(stdhac2R,3))
+colnames(IV_estimatesR) = colnames
+rownames(IV_estimatesR) = rownames
+knitr::kable(IV_estimatesR)
+```
+
+The table above replicates @perron2015using table VII exactly
+
+
+# Reference
