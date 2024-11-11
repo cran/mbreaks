@@ -7,19 +7,19 @@
 compile_seqtests(x)
 }
 \arguments{
-\item{x}{\code{seqtests} class object}
+\item{x}{`seqtests` class object}
 }
 \value{
-class \code{seqtests} list \code{x} with appended data frame \code{sfl} containing the
+class `seqtests` list `x` with appended data frame `sfl` containing the
 sequential SupF test statistics with critical values at
-\verb{\{10\%,5\%,2.5\%,1\%\}} level
+\emph{10\%, 5\%, 2.5\%, and 1\%} level.
 }
 \description{
-\code{compile_seqtests} formats the output of the \code{seqtests} class object to 1 table
-\itemize{
-\item sfl table containing sequential sup F tests statistics
-of \code{l} versus \code{l+1} for l in \code{1} to \code{m} breaks
+`compile_seqtests` formats the output of the `seqtests` class object to 1 table
+\describe{
+\item{`sfl`}{A table containing sequential sup F tests statistics
+of `l` versus `l+1` for `l` in `1` to `m` breaks
 with critical values of the corresponding tests at
-\verb{\{1\%, 2.5\%, 5\%, 10\%\}} significance levels
+\emph{1\%, 2.5\%, 5\%, and 10\%} significance levels.}
 }
 }

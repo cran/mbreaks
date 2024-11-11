@@ -27,37 +27,38 @@ dorepart(
 \arguments{
 \item{y_name}{name of dependent variable in the data set}
 
-\item{z_name}{name of independent variables in the data set which coefficients are allowed to change
-across regimes. \code{default} is vector of 1 (Mean-shift model)}
+\item{z_name}{name of independent variables in the data set, whose coefficients are allowed to change
+across regimes. \code{default} is a vector of 1 (Mean-shift model).}
 
-\item{x_name}{name of independent variables in the data set which coefficients are constant across
-regimes. \code{default} is \code{NULL}}
+\item{x_name}{name of independent variables in the data set whose coefficients are constant across
+regimes. \code{default} is \code{NULL}.}
 
-\item{data}{name of data set used}
+\item{data}{name of the data set used}
 
-\item{m}{Maximum number of structural changes allowed. If not specify,
-m will be set to \code{default} value matching \code{eps1} input}
+\item{m}{Maximum number of structural changes allowed. If not specified,
+\code{m} will be set to \code{default} value matching the \code{eps1} input}
 
 \item{eps}{convergence criterion for iterative recursive computation}
 
 \item{eps1}{value of trimming (in percentage) for the construction
 and critical values. Minimal segment length \code{h} will be set
-at \code{default} = int(\code{eps1}*T) (T is total sample size).
+at \code{default} = \code{int(eps1 * T)} (T is total sample size).
+There are five options:
 \itemize{
-\item
-\item{\code{eps1=0.05} Maximal value of \code{m} = 10}
-\item{\code{eps1=0.10} Maximal value of \code{m} = 8}
-\item{\code{eps1=.15} Maximal value of \code{m} = 5}
-\item{\code{eps1=.20} Maximal value of \code{m} = 3}
-\item{\code{eps1=.25} Maximal value of \code{m} = 2}
-\item{\code{eps1=0} This option is not allowed}}}
+  \item \code{eps1 = 0.05} Maximal value of \code{m} = 10.
+  \item \code{eps1 = 0.10} Maximal value of \code{m} = 8.
+  \item \code{eps1 = 0.15} Maximal value of \code{m} = 5.
+  \item \code{eps1 = 0.20} Maximal value of \code{m} = 3.
+  \item \code{eps1 = 0.25} Maximal value of \code{m} = 2.
+  \item \code{eps1 = 0} This option is not allowed.
+}}
 
 \item{maxi}{maximum number of iterations}
 
 \item{fixb}{option to use fixed initial input \eqn{\beta}. If \code{1},
-the model will use values given in \code{betaini}. If \code{0}, betaini is skipped}
+the model will use values given in \code{betaini}. If \code{0}, \code{betaini} is skipped}
 
-\item{betaini}{Initial \eqn{beta_0} to use in estimation}
+\item{betaini}{Initial \eqn{\beta_0} to use in estimation}
 
 \item{printd}{Print option for model estimation. \code{default} = 0, to
 suppress intermediate outputs printing to console}
@@ -66,48 +67,49 @@ suppress intermediate outputs printing to console}
 the long run covariance matrix.}
 
 \item{robust}{set to \code{1} to allow for heterogeneity
-and autocorrelation in the residuals, \code{0} otherwise.
+and autocorrelation in the residuals, \code{0} otherwise. 
 The method used is \emph{Andrews(1991)} automatic bandwidth with AR(1) approximation with quadratic
 kernel. Note: Do not set to \code{1} if lagged dependent variables are
 included as regressors.}
 
-\item{hetdat}{option for the construction of the F tests. Set to 1 if want to
-allow different moment matrices of the regressors across segments.
+\item{hetdat}{option for the construction of the F tests. Set to 1 if you want to
+allow different moment matrices of the regressors across segments. 
 If \code{hetdat} = \code{0}, the same moment matrices are assumed for each segment
-and estimated from the ful sample. It is recommended to set
-\code{hetdat}=\code{1} if number of regressors \code{x} > \code{0}.}
+and estimated from the full sample. It is recommended to set
+\code{hetdat = 1} if number of regressors \code{x} > \code{0}.}
 
-\item{hetvar}{option for the construction of the F tests.Set to \code{1}
+\item{hetvar}{option for the construction of the F tests. Set to \code{1}
 if users want to allow for the variance of the residuals to be different across segments.
-If \code{hetvar}=\code{0}, the variance of the residuals is assumed constant
-across segments and constructed from the full sample. \code{hetvar}=\code{1} when \code{robust} =\code{1})}
+If \code{hetvar} = \code{0}, the variance of the residuals is assumed constant
+across segments and constructed from the full sample. \code{hetvar} = \code{1} when \code{robust} = \code{1}}
 
-\item{const}{indicates whether the regression model include an
+\item{const}{indicates whether the regression model includes an
 intercept changing across regimes. Default value is 1}
 
 \item{signif}{significance level used to sequential test to select number of breaks.
 \itemize{
-\item 4: 1\% level
-\item 3: 2.5\% level
-\item 2: 5\% level
-\item 1: 10\% level
+  \item 4: 1\% level
+  \item 3: 2.5\% level
+  \item 2: 5\% level
+  \item 1: 10\% level
 }}
 }
 \value{
-out A list of \code{model} class for structural break model estimating by
-repartition procedure
+A list of class \code{model} for the structural break model estimated by
+the repartition procedure.
 }
 \description{
-\code{dorepart()} computes the repartition estimates of the breaks obtained
-by the sequential method by Bai, 1995.. It alows estimates that have the same asymptotic
-distribution as those obtained by global minimization. Otherwise, the
-output from the procedure "estim" below do not deliver asymptotically
+`dorepart()` computes the repartition estimates of the breaks obtained
+by the sequential method by Bai, 1995. It allows estimates that have the same
+asymptotic distribution as those obtained by global minimization. Otherwise,
+the output from the procedure "estim" below does not deliver asymptotically
 correct confidence intervals for the break dates.
 }
 \examples{
-dorepart('inf','inflag','inffut',data=nkpc)
+dorepart('inf', 'inflag', 'inffut', data = nkpc)
+
 }
 \references{
-Bai, J. 1995, \emph{"Estimating Breaks one at a time"}, Econometric Theory, 13,
+Bai, J. 1995, \emph{"Estimating Breaks One at a Time"}, Econometric Theory, 13,
 315-352
 }

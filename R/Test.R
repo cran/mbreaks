@@ -32,6 +32,7 @@ pftest = function(y,z,i,q,bigT,datevec,prewhit,robust,x,p,hetdat,hetvar){
   rmat = kron(rsub,diag(1,q))
   date = datevec[seq(1,i,1),i,drop=FALSE]
   zbar = diag_par(z,i,date)
+  
   if (p==0){
     delta = OLS(y,zbar)
   }
@@ -39,11 +40,12 @@ pftest = function(y,z,i,q,bigT,datevec,prewhit,robust,x,p,hetdat,hetvar){
     dbdel = OLS(y, cbind(zbar,x))
     delta = dbdel[seq(1,(i+1)*q) , 1,drop=FALSE]
   }
-
+  
   vdel = pvdel(y,z,i,q,bigT,date,prewhit,robust,x,p,0,hetdat,hetvar)
   fstar = t(delta) %*% t(rmat) %*% solve(rmat %*% vdel %*% t(rmat)) %*%
     rmat %*% delta
   ftest = (bigT - (i+1)*q - p) %*% fstar / (bigT*i)
+  
   return(ftest)
 }
 
@@ -66,8 +68,8 @@ pftest = function(y,z,i,q,bigT,datevec,prewhit,robust,x,p,hetdat,hetvar){
 #'@param prewhit,robust,hetdat,hetvar options on residuals/errors. For more details,
 #'please refer to [mdl()]
 #'@return A list that contains the following:
-#'\itemize{
-#'\item {maxf}{Maximum value of test}
+#'\describe{
+#'\item{maxf}{Maximum value of test}
 #'\item{newd}{Additional date in alternative hypothesis }
 #'}
 #'@export
@@ -80,11 +82,11 @@ spflp1 = function(bigvec,dt,nseg,y,z,h,q,prewhit,robust,x,p,hetdat,hetvar){
   dv[2:nseg,1] = dt
   dv[nseg+1,1] = bigT
   ds = matrix(0L, nrow = nseg, ncol = 1)
-
+  
   i_n = 0
   for (is in 1:nseg){
     length = dv[is+1,1] - dv[is,1]
-
+    
     if(length >= 2*h){
       if (p == 0){
         out = parti(dv[is,1]+1,dv[is,1]+h,dv[is+1,1]-h,dv[is+1,1],bigvec,bigT)
@@ -111,16 +113,15 @@ spflp1 = function(bigvec,dt,nseg,y,z,h,q,prewhit,robust,x,p,hetdat,hetvar){
       ftestv[is,1] = 0.0
     }
   }
-
+  
   if (i_n == nseg) {
     #print(paste('Given the location of the breaks from the global optimization with',
     #            nseg,'breaks there was no more place to insert an additional breaks that satisfy the minimal length requirement.'))
   }
-
+  
   maxf = max(ftestv[1:nseg,1])
   newd = ds[which.max(ftestv[1:nseg,1]),1]
   if (newd == 0){newd = NA}
   out = list('maxf' = maxf, 'newd' = newd)
   return(out)
 }
-

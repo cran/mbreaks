@@ -5,22 +5,20 @@
 \alias{nkpc}
 \title{New Keynesian Phillips curve data}
 \format{
-\subsection{\code{nkpc}}{
-
+## `nkpc`
 A data frame with 151 rows and 12 columns:
 \describe{
-\item{year}{Current period year}
-\item{quarter}{Quarter in current period year}
-\item{inf}{Inflation rate}
-\item{inflag}{Inflation rate in previous period}
-\item{inffut}{Expected inflation rate, taken as value of inflation rate of next period}
-\item{ygap}{Productivity output gap}
-\item{lbs}{}
-\item{lbslag}{}
-\item{spreadlag}{}
-\item{dwlag}{}
-\item{dcplag}{}
-}
+  \item{year}{Current period year}
+  \item{quarter}{Quarter in current period year}
+  \item{inf}{Inflation rate}
+  \item{inflag}{Inflation rate in previous period}
+  \item{inffut}{Expected inflation rate, taken as value of inflation rate of next period}
+  \item{ygap}{Productivity output gap}
+  \item{lbs}{}
+  \item{lbslag}{}
+  \item{spreadlag}{}
+  \item{dwlag}{}
+  \item{dcplag}{}
 }
 }
 \source{

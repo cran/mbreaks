@@ -16,7 +16,7 @@ allowed to change across regimes}
 
 \item{m}{maximum number of breaks}
 
-\item{q}{number of \code{z} regressors}
+\item{q}{number of `z` regressors}
 
 \item{bigT}{sample period T}
 }
@@ -27,7 +27,7 @@ A list containing the following components:
 \item{bigvec}{Associated SSRs}
 }
 \description{
-\code{dating()} computes break points that globally minimizes SSR via dynamic programming approach.
+`dating()` computes break points that globally minimizes SSR via dynamic programming approach.
 To avoid recursion depth increases as number of breaks in the model increases, a temporary
 array is used to store optimal partition with corresponding SSR for all permissible
 subsamples for all 1:m-1 breaks. For the m-th break, the problem becomes finding where to insert

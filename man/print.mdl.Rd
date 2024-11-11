@@ -2,24 +2,24 @@
 % Please edit documentation in R/mdl.R
 \name{print.mdl}
 \alias{print.mdl}
-\title{Print information of \code{mbreaks} comprehensive procedure}
+\title{Print information of `mbreaks` comprehensive procedure}
 \usage{
 \method{print}{mdl}(x, ...)
 }
 \arguments{
-\item{x}{class \code{mdl} object}
+\item{x}{class `mdl` object}
 
 \item{...}{further arguments passed to or from other methods}
 }
 \value{
-No return value, only for printing \code{model}, \code{sbtests} and \code{seqtests} class objects
-invoked during \code{mdl()}.
+No return value, only for printing `model`, `sbtests` and `seqtests` class objects
+invoked during `mdl()`.
 }
 \description{
-\code{print} prints the class \code{mdl} object with default showing only
+`print` prints the class `mdl` object with default showing only
 certain procedures called
-by \code{mdl()} function including: \code{seqtests} class object, \code{sbtests} class
-object, and \code{model} class object using KT information criterion
+by `mdl()` function including: `seqtests` class object, `sbtests` class
+object, and `model` class object using KT information criterion
 }
 \examples{
 rate = mdl('rate',data=real)

@@ -7,20 +7,20 @@
 \method{print}{sbtests}(x, ...)
 }
 \arguments{
-\item{x}{class \code{sbtests} object}
+\item{x}{class `sbtests` object}
 
 \item{...}{further arguments passed to or from other methods}
 }
 \value{
-No return value, only for printing formatted \code{sbtests} class object to console
+No return value, only for printing formatted `sbtests` class object to console
 }
 \description{
-\code{print} prints the following information from a \code{sbtests} class object:
-\itemize{
-\item table \code{supF1} reporting sup F tests of 0 versus \code{1} upto \code{m} breaks with critical values for
-\verb{\{1\%, 2.5\%, 5\%, 10\%\}} significance levels
-\item table \code{UDmax} reporting Double Max tests with critical values for
-\verb{\{1\%, 2.5\%, 5\%, 10\%\}} significance levels.
+`print` prints the following information from a `sbtests` class object:
+\describe{
+\item{`supF1`}{A table reports sup F tests of 0 versus `1` upto `m` breaks with critical values for
+\emph{1\%, 2.5\%, 5\%, and 10\%} significance levels.}
+\item{`UDmax`}{A table reporting Double Max tests with critical values for
+\emph{1\%, 2.5\%, 5\%, and 10\%} significance levels.}
 }
 }
 \examples{

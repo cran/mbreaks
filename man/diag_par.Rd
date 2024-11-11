@@ -18,7 +18,7 @@ change overtime}
 output: matrix of partitioned variables corresponds to break dates
 }
 \description{
-\code{diag_par()} partition the matrix of \code{z} regressors which coefficients are changed
+`diag_par()` partition the matrix of `z` regressors which coefficients are changed
 based on the provided break dates
 }
 \examples{

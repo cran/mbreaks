@@ -411,11 +411,12 @@ cvg = function(eta,phi1s,phi2s){
 #'Function to retrieve critical values of supF test stored in
 #'/SysData/SupF/cv_{x}.csv where \code{x} corresponds to the trimming level:
 #'\itemize{
-#'\item{1: \code{eps1} = 5%}
-#'\item{2: \code{eps1} = 10%}
-#'\item{3: \code{eps1} = 15%}
-#'\item{4: \code{eps1} = 20%}
-#'\item{5: \code{eps1} = 25%}}
+#'\item 1 set \code{eps1} = 5\%
+#'\item 2 set \code{eps1} = 10\%
+#'\item 3 set \code{eps1} = 15\%
+#'\item 4 set \code{eps1} = 20\%
+#'\item 5 set\code{eps1} = 25\%
+#'}
 #'The critical values are tabulated from @references Perron and Bai, 1994
 #'@param signif significant level
 #'@param eps1 trimming level
@@ -458,11 +459,12 @@ getcv1 = function(signif,eps1){
 #'Function to retrieve critical values of SupF(l+1|l) test stored in
 #'/SysData/SupF_next/cv_{x}.csv where \code{x} corresponds to the trimming level:
 #'\itemize{
-#'\item{1: \code{eps1} = 5%}
-#'\item{2: \code{eps1} = 10%}
-#'\item{3: \code{eps1} = 15%}
-#'\item{4: \code{eps1} = 20%}
-#'\item{5: \code{eps1} = 25%}}
+#'\item 1 set \code{eps1} = 5\%
+#'\item 2 set \code{eps1} = 10\%
+#'\item 3 set \code{eps1} = 15\%
+#'\item 4 set \code{eps1} = 20\%
+#'\item 5 set\code{eps1} = 25\%
+#'}
 #'The critical values are tabulated from @references
 #'@param signif significant level
 #'@param eps1 trimming level
@@ -504,11 +506,12 @@ getcv2 = function(signif,eps1){
 #'Function to retrieve critical values of supF test stored in
 #'/SysData/Dmax/cv_{x}.csv where \code{x} corresponds to the trimming level:
 #'\itemize{
-#'\item{1: \code{eps1} = 5%}
-#'\item{2: \code{eps1} = 10%}
-#'\item{3: \code{eps1} = 15%}
-#'\item{4: \code{eps1} = 20%}
-#'\item{5: \code{eps1} = 25%}}
+#'\item 1 set \code{eps1} = 5\%
+#'\item 2 set \code{eps1} = 10\%
+#'\item 3 set \code{eps1} = 15\%
+#'\item 4 set \code{eps1} = 20\%
+#'\item 5 set\code{eps1} = 25\%
+#'}
 #'The critical values are tabulated from @references
 #'
 #'@param signif significant level

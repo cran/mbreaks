@@ -9,7 +9,7 @@ estim(m, q, z, y, b, robust, prewhit, hetomega, hetq, x, p, hetdat, hetvar)
 \arguments{
 \item{m}{number of breaks}
 
-\item{q}{number of \code{z} regressors z}
+\item{q}{number of `z` regressors z}
 
 \item{z}{matrix of regressors with coefficients are allowed to change across
 regimes}
@@ -19,7 +19,7 @@ regimes}
 \item{b}{vector of break dates}
 
 \item{robust, hetomega, hetq, hetdat, hetvar}{options for assumptions on the error terms.
-For more details, please refer to \code{\link[=mdl]{mdl()}}.}
+For more details, please refer to \code{\link{mdl}}.}
 
 \item{prewhit}{option to use prewhitening process based on AR(1) approximation}
 
@@ -29,19 +29,19 @@ For more details, please refer to \code{\link[=mdl]{mdl()}}.}
 }
 \value{
 A list containing the following components:
-\itemize{
-\item{date} {List of estimated breaks}
-\item{CI} {List of Confidence Intervals for each corresponding break}
-\item{beta} {Estimated coefficients of the regression. The first
+\describe{
+\item{date}{List of estimated breaks.}
+\item{CI}{List of Confidence Intervals for each corresponding break.}
+\item{beta}{Estimated coefficients of the regression. The first
 (\code{m}+1)*\code{q} are coefficients of \code{q} variables \code{z} that change across regimes.
 The last \code{p} are coefficients of \code{p} variables \code{x}
-that are constant across regimes}
-\item{SE} {Corrected standard errors for the coefficients' estimates}}
+that are constant across regimes.}
+\item{SE}{Corrected standard errors for the coefficients' estimates}}
 }
 \description{
-\code{estim()} estimates the structural change model by OLS given specified vector of break dates
+`estim()` estimates the structural change model by OLS given specified vector of break dates
 It also computes and reports confidence intervals for the
 break dates based on asymptotic distributions of break date  and
 corrected standard errors of coefficients estimates given the structure of covariance matrix
-for model errors by specifying error options \code{robust}, \code{hetomega}, \code{hetq}, \code{hetdat} and \code{hetvar}
+for model errors by specifying error options `robust`, `hetomega`, `hetq`, `hetdat` and `hetvar`
 }

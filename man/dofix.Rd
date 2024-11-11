@@ -33,7 +33,7 @@ dofix(
 across regimes. \code{default} is vector of 1 (Mean-shift model)}
 
 \item{x_name}{name of independent variables in the data set which coefficients are constant across
-regimes. \code{default} is \code{NULL}}
+regimes. \code{default} is `NULL`}
 
 \item{data}{name of data set used}
 
@@ -42,16 +42,17 @@ regimes. \code{default} is \code{NULL}}
 \item{eps}{convergence criterion for iterative recursive computation}
 
 \item{eps1}{value of trimming (in percentage) for the construction
-and critical values. Minimal segment length \code{h} will be set
+and critical values. Minimal segment length `h` will be set
 at \code{default} = int(\code{eps1}*T) (T is total sample size).
 \itemize{
-\item{\code{eps1=0.05} Maximal value of \code{m} = 10}
-\item{\code{eps1=0.10} Maximal value of \code{m} = 8}
-\item{\code{eps1=.15} Maximal value of \code{m} = 5}
-\item{\code{eps1=.20} Maximal value of \code{m} = 3}
-\item{\code{eps1=.25} Maximal value of \code{m} = 2}
-\item{\code{eps1=0} This option allows users to explicitly specify
-minimum segment length \code{h} parameters}}}
+  \item \code{eps1 = 0.05} Maximal value of \code{m} = 10.
+  \item \code{eps1 = 0.10} Maximal value of \code{m} = 8.
+  \item \code{eps1 = 0.15} Maximal value of \code{m} = 5.
+  \item \code{eps1 = 0.20} Maximal value of \code{m} = 3.
+  \item \code{eps1 = 0.25} Maximal value of \code{m} = 2.
+  \item \code{eps1=0} This option allows users to explicitly specify
+minimum segment length `h` parameters.
+}}
 
 \item{maxi}{maximum number of iterations}
 
@@ -90,19 +91,19 @@ across segments}
 \item{hetomega}{used in the construction of the confidence intervals for the break
 dates. If \code{hetomega}=\code{0}, the long run covariance matrix of zu is
 assumed identical across segments
-(the variance of the errors u if \code{robust}={0})}
+(the variance of the errors u if \code{robust}=\code{0}).}
 
 \item{const}{indicates whether the regression model include an
 intercept changing across regimes. Default value is 1}
 
-\item{h}{Minimum segment length of regime considered in estimation. If users want to specify a particular value, please set \code{eps1=0}}
+\item{h}{Minimum segment length of regime considered in estimation. If users want to specify a particular value, please set `eps1=0`}
 }
 \value{
-out A list of class \code{model} contains all information about the
-estimated structural change model with \code{fixn} breaks
+out A list of class `model` contains all information about the
+estimated structural change model with `fixn` breaks
 }
 \description{
-\code{dofix()} compute a structural change model with pre-specified number
+`dofix()` compute a structural change model with pre-specified number
 of breaks.
 }
 \examples{

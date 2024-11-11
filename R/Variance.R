@@ -249,7 +249,7 @@ pvdel = function(y,z,i,q,bigT,b,prewhit,robust,x,p,withb,hetdat,hetvar) {
 #'@param hetomega,hetq options for assumptions of error terms
 #'structure. For more details, refers to [mdl()]
 #'
-#'@return bound Confidence intervals of break date in \code{90%} and \code{95%}
+#'@return bound Confidence intervals of break date in \code{90\%} and \code{95\%}
 #'significant level
 #'@export
 

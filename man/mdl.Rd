@@ -29,31 +29,32 @@ mdl(
 )
 }
 \arguments{
-\item{y_name}{name of dependent variable in the data set}
+\item{y_name}{name of dependent variable in the data set.}
 
 \item{z_name}{name of independent variables in the data set which coefficients are allowed to change
-across regimes. \code{default} is vector of 1 (Mean-shift model)}
+across regimes. \code{default} is vector of 1 (Mean-shift model).}
 
 \item{x_name}{name of independent variables in the data set which coefficients are constant across
-regimes. \code{default} is \code{NULL}}
+regimes. \code{default} is \code{NULL}.}
 
-\item{data}{the data set for estimation}
+\item{data}{the data set for estimation.}
 
 \item{eps1}{value of trimming (in percentage) for the construction
-and critical values. Minimal segment length \code{h} will be set
+and critical values. Minimal segment length `h` will be set
 at \code{default} = int(\code{eps1}*T) (T is total sample size).
 \itemize{
-\item{\code{eps1=0.05} Maximal value of \code{m} = 10}
-\item{\code{eps1=0.10} Maximal value of \code{m} = 8}
-\item{\code{eps1=.15} Maximal value of \code{m} = 5}
-\item{\code{eps1=.20} Maximal value of \code{m} = 3}
-\item{\code{eps1=.25} Maximal value of \code{m} = 2}
-\item{\code{eps1=0} This option allows users to explicitly specify
-minimum segment length \code{h} parameters. However, this option will not
-be allowed for testing and testing related functions}} The \code{default} value is set at 0.15}
+  \item \code{eps1 = 0.05} Maximal value of \code{m} = 10.
+  \item \code{eps1 = 0.10} Maximal value of \code{m} = 8.
+  \item \code{eps1 = 0.15} Maximal value of \code{m} = 5.
+  \item \code{eps1 = 0.20} Maximal value of \code{m} = 3.
+  \item \code{eps1 = 0.25} Maximal value of \code{m} = 2.
+  \item \code{eps1 = 0} This option allows users to explicitly specify
+minimum segment length `h` parameters. However, this option will not
+be allowed for testing and testing related functions.}
+The default value is set at \code{eps1 = 0.15}.}
 
 \item{m}{Maximum number of structural changes allowed. If not specify,
-m will be set to \code{default} value matching \code{eps1} input}
+m will be set to \code{default} value matching `eps1` input.}
 
 \item{prewhit}{set to \code{1} to apply AR(1) prewhitening prior to estimating
 the long run covariance matrix.}
@@ -77,14 +78,14 @@ across segments and constructed from the full sample. \code{hetvar}=\code{1} whe
 
 \item{hetomega}{used in the construction of the confidence intervals for the break
 dates. If \code{hetomega}=\code{0}, the long run covariance matrix of zu is
-assumed identical across segments (the variance of the errors u if \code{robust}={0})}
+assumed identical across segments (the variance of the errors u if \code{robust}=\code{0})}
 
 \item{hetq}{used in the construction of the confidence intervals for the break
 dates. If \code{hetq}=\code{0}, the moment matrix of the data is assumed identical
 across segments}
 
 \item{maxi}{number of maximum iterations for recursive calculations of finding
-global minimizers.\code{default} = 10 (For partial change model ONLY)}
+global minimizers.\code{default} = 10 (For partial change model ONLY).}
 
 \item{eps}{convergence criterion for recursive calculations (For partial change model ONLY)}
 
@@ -94,54 +95,54 @@ automatically to 2 if no specification is given (For partial change model ONLY)}
 \item{fixb}{option to use fixed initial input \eqn{\beta}. If \code{1},
 the model will use values given in \code{betaini}. If \code{0}, betaini is skipped}
 
-\item{betaini}{Initial \eqn{beta_0} to use in estimation (Must be a \verb{p x 1} matrix, where p is number of x variables)}
+\item{betaini}{Initial \eqn{\beta_0} to use in estimation (Must be a `p x 1` matrix, where `p` is number of x variables)}
 
 \item{printd}{Print option for model estimation. \code{default} = 0, to
 suppress intermediate outputs printing to console}
 
 \item{const}{indicates whether the regression model include an
-intercept changing across regimes. Default value is 1}
+intercept changing across regimes. Default value is 1.}
 
 \item{signif}{significance level used to sequential test to select number of breaks.
 \itemize{
-\item 4: 1\% level
-\item 3: 2.5\% level
-\item 2: 5\% level
-\item 1: 10\% level
+  \item 4: 1\% level
+  \item 3: 2.5\% level
+  \item 2: 5\% level
+  \item 1: 10\% level
 }}
 
-\item{h}{Minimum segment length of regime considered in estimation. If users want to specify a particular value, please set \code{eps1=0}}
+\item{h}{Minimum segment length of regime considered in estimation. If users want to specify a particular value, please set `eps1=0`}
 }
 \value{
 A list that contains the following:
-\itemize{
-\item{sbtests: class \code{sbtests} of Sup F tests of 0 versus m breaks and Double Max tests}
-\item{seqtests: class \code{seqtests} of sequential Sup F test of l versus l+1 breaks }
-\item{BIC: class \code{model} of structural break model with estimated number of breaks by BIC criterion}
-\item{LWZ: class \code{model} of structural break model with estimated number of breaks by LWZ criterion}
-\item{KT: class \code{model} of structural break model with estimated number of breaks by KT criterion}
-\item{sequa: class \code{model} of structural break model with estimated number of breaks by sequential tests}
-\item{fix:  class \code{model} of structural break model with pre-specified \code{fixn} number of breaks}
+\describe{
+\item{sbtests}{A list of class `sbtests` representing Sup F tests of 0 versus m breaks and Double Max tests.}
+\item{seqtests}{A list of class `seqtests` representing sequential Sup F test of l versus l+1 breaks.}
+\item{BIC}{A list of class `model` with structural break model estimated by number of breaks by \code{BIC} criterion.}
+\item{LWZ}{A list of class `model` with structural break model estimated by number of breaks by \code{LWZ} criterion.}
+\item{KT}{A class `model` with structural break model estimated by number of breaks by \code{KT} criterion.}
+\item{sequa}{A class `model` with structural break model estimated by number of breaks by sequential tests.}
+\item{fix}{A class `model` with structural break model estimated by pre-specified `fixn` number of breaks.}
 }
 
 Note: All \code{default} values of error assumptions (\code{robust},
 \code{hetdat}, \code{hetvar}, \code{hetq}) are set to 1. The implications on
-the structure of model's errors related to individual settings are explained within
+the structure of model\'s errors related to individual settings are explained within
 the arguments section for each option.
 }
 \description{
-\code{mdl()} calls main functions of the \code{mbreaks} package to execute the following
+`mdl()` calls main functions of the `mbreaks` package to execute the following
 estimation procedures:
-\itemize{
-\item{\code{dotest()} conducts Sup F tests of \code{0} versus \code{m} breaks and Double Max tests}
-\item{\code{doseqtests()} conducts the sequential Sup F tests of l versus l+1 breaks}
-\item{\code{doorder()} conducts the number of breaks selection from \code{1} to \code{m}
-breaks using information critera: \verb{\{'KT','BIC','LWZ'\}}}
-\item{\code{dosequa()} conducts the number of breaks selection by sequential tests
-from \code{1} to \code{m} breaks using sequential Sup F tests}
-\item{\code{dofix()} conducts structural break model estimation with \code{fixn} breaks}
+\describe{
+\item{`dotest()`}{ Function \code{\link{dotest}} conducts Sup F tests of `0` versus `m` breaks and Double Max tests.}
+\item{`doseqtests()`}{Function \code{\link{doseqtests}} conducts the sequential Sup F tests of `l` versus `l+1` breaks.}
+\item{`doorder()`}{Function \code{\link{doorder}} conducts the number of breaks selection from `1` to `m`
+ breaks using the following information critera: \code{KT},\code{BIC}, and \code{LWZ}.}
+\item{`dosequa()`}{Function \code{\link{dosequa}} conducts the number of breaks selection by sequential tests
+ from `1` to `m` breaks using sequential Sup F tests.}
+\item{`dofix()`}{Function \code{\link{dofix}} conducts structural break model estimation with `fixn` breaks.}
 }
-All the procedures automatically identify if the \code{model} is either i) pure structural
+All the procedures automatically identify if the `model` is either i) pure structural
 breaks model or ii) partial structural breaks model
 }
 \examples{
@@ -150,6 +151,6 @@ breaks model or ii) partial structural breaks model
 
 }
 \seealso{
-\code{\link[=dotest]{dotest()}}, \code{\link[=doseqtests]{doseqtests()}}, \code{\link[=doorder]{doorder()}}, \code{\link[=dosequa]{dosequa()}}, and \code{\link[=dofix]{dofix()}}
-which are functions called by \code{mdl()}.
+\code{\link{dotest}}, \code{\link{doseqtests}}, \code{\link{doorder}}, \code{\link{dosequa}}, and \code{\link{dofix}}
+which are functions called by `mdl()`.
 }

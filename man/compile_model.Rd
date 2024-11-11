@@ -12,35 +12,35 @@ compile_model(x, digits = 3)
 \item{digits}{number of digits displayed in console. Default value is 3}
 }
 \value{
-\code{x} The input list of \code{model} class contains the following tables:
-\itemize{
-\item{\code{date_tab} A data frame storing the break date estimated by the model,
-and their corresponding confidence intervals}
-\item{\code{RS_tab} A data frame storing the estimated coefficients which allowed to
-change across regimes with corrected standard errors}
-\item{\code{FS_tab} A data frame storing the estimated coefficients which is constant
-across regimes with corrected standard errors}}
+Formatted \code{x} with the following appended tables:
+\describe{
+\item{`date_tab`}{A data frame storing the break date estimated by the model,
+and their corresponding confidence intervals.}
+\item{`RS_tab`}{A data frame storing the estimated coefficients which allowed to
+change across regimes with corrected standard errors.}
+\item{`FS_tab`}{A data frame storing the estimated coefficients which is constant
+across regimes with corrected standard errors.}
+}
 }
 \description{
-\code{compile_model()} compiles the information of \code{model} class object \code{x} into 3
+\code{compile_model()} compiles the information of \code{model} class object \code{x} into three
 main tables:
-\itemize{
-\item {\code{date_tab} Table for estimated break date in the model
+\describe{
+\item{date_tab}{Table for estimated break date in the model
 with 90\% and 95\% confidence intervals based on \code{robust},\code{hetomega}, \code{hetq} options
-for errors
-and \code{prewhit} option}
-\item {\code{RS_tab} Table for estimated coefficients for \code{z} regressors
+for errors and \code{prewhit} option.}
+\item{RS_tab}{Table for estimated coefficients for \code{z} regressors
 with corrected standard errors based on \code{robust},\code{hetdat},\code{hetvar}
-options for errors and \code{prewhit} option}
-\item {\code{FS_tab} Table for estimated coefficients for \code{x} regressors
-with corrected standard errors based on \code{robust},\code{hetdat},\code{hetvar} options for errors and \code{prewhit} option
-}}
+options for errors and \code{prewhit} option.}
+\item{FS_tab}{Table for estimated coefficients for \code{x} regressors
+with corrected standard errors based on \code{robust}, \code{hetdat}, and \code{hetvar} options for errors and \code{prewhit} option.}
+}
 }
 \note{
 \itemize{
-\item{If \code{x} returns 0 number of estimated break,
-the function will return \code{NULL} value instead of the list in \code{Value}.}
-\item{If \code{x} is a pure structural break, the \code{FS_tab} will return \code{NULL} in
-\code{Value}}
+\item If \code{x} returns 0 number of estimated break,
+the function will return \code{NULL} value instead of the list in \code{Value}.
+\item If \code{x} is a pure structural break, the `FS_tab` will return \code{NULL} in
+\code{Value}.
 }
 }

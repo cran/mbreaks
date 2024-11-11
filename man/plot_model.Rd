@@ -7,7 +7,7 @@
 plot_model(model, CI = 0.95, title = NULL)
 }
 \arguments{
-\item{model}{object of class \code{model} in \code{mbreaks} package}
+\item{model}{object of class `model` in `mbreaks` package}
 
 \item{CI}{confidence intervals for break date and coefficient estimates visualize in terms of
 fitted values}
@@ -15,12 +15,12 @@ fitted values}
 \item{title}{title of the graph}
 }
 \value{
-No return value, called for plotting class \code{model} object. For more details
-on \code{model} class, see \link{compile_model}
+No return value, called for plotting class `model` object. For more details
+on `model` class, see [compile_model]
 }
 \description{
-\code{plot_model()} visualizes any object of class \code{model} with comparison between real,
-fitted values between  model of \code{m} breaks and null model of \code{0} breaks with options
+`plot_model()` visualizes any object of class `model` with comparison between real,
+fitted values between  model of `m` breaks and null model of `0` breaks with options
 for confidence interval of break date.
 }
 \examples{

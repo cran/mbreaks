@@ -34,7 +34,7 @@ doorder(
 across regimes. \code{default} is vector of 1 (Mean-shift model)}
 
 \item{x_name}{name of independent variables in the data set which coefficients are constant across
-regimes. \code{default} is \code{NULL}}
+regimes. \code{default} is `NULL`}
 
 \item{data}{name of data set used}
 
@@ -43,16 +43,17 @@ regimes. \code{default} is \code{NULL}}
 \item{eps}{convergence criterion for iterative recursive computation}
 
 \item{eps1}{value of trimming (in percentage) for the construction
-and critical values. Minimal segment length \code{h} will be set
+and critical values. Minimal segment length `h` will be set
 at \code{default} = int(\code{eps1}*T) (T is total sample size).
+There are five options:
 \itemize{
-\item{\code{eps1=0.05} Maximal value of \code{m} = 10}
-\item{\code{eps1=0.10} Maximal value of \code{m} = 8}
-\item{\code{eps1=.15} Maximal value of \code{m} = 5}
-\item{\code{eps1=.20} Maximal value of \code{m} = 3}
-\item{\code{eps1=.25} Maximal value of \code{m} = 2}
-\item{\code{eps1=0} This option allows users to explicitly specify
-minimum segment length \code{h} parameters}}}
+\item `eps1=0.05` Maximal value of `m` = 10.
+\item `eps1=0.10` Maximal value of `m` = 8.
+\item `eps1=.15` Maximal value of `m` = 5.
+\item `eps1=.20` Maximal value of `m` = 3.
+\item `eps1=.25` Maximal value of `m` = 2.
+\item `eps1=0` This option allows users to explicitly specify
+minimum segment length `h` parameters}}
 
 \item{maxi}{maximum number of iterations}
 
@@ -65,12 +66,17 @@ the model will use values given in \code{betaini}. If \code{0}, betaini is skipp
 suppress intermediate outputs printing to console}
 
 \item{ic}{indicator which information criterion is used in selecting number of breaks:
-\verb{\{'KT','BIC','LWZ'\}}. The default value is \code{'KT'}}
+\itemize{
+\item \code{KT}
+\item \code{BIC}
+\item \code{LWZ} 
+}
+The default value is \code{KT}}
 
 \item{const}{indicates whether the regression model include an
 intercept changing across regimes. Default value is 1}
 
-\item{h}{Minimum segment length of regime considered in estimation. If users want to specify a particular value, please set \code{eps1=0}}
+\item{h}{Minimum segment length of regime considered in estimation. If users want to specify a particular value, please set `eps1=0`}
 
 \item{prewhit}{set to \code{1} to apply AR(1) prewhitening prior to estimating
 the long run covariance matrix.}
@@ -88,7 +94,7 @@ across segments}
 \item{hetomega}{used in the construction of the confidence intervals for the break
 dates. If \code{hetomega}=\code{0}, the long run covariance matrix of zu is
 assumed identical across segments
-(the variance of the errors u if \code{robust}={0})}
+(the variance of the errors u if \code{robust}=\code{0})}
 
 \item{hetvar}{option for the construction of the F tests.Set to \code{1}
 if users want to allow for the variance of the residuals to be different across segments.
@@ -102,18 +108,21 @@ kernel. Note: Do not set to \code{1} if lagged dependent variables are
 included as regressors.}
 }
 \value{
-A list of class \code{model} that contains one of the following:
+A list of class `model` that contains one of the following:
+\describe{
 \item{mBIC}{change model with number of breaks selected by BIC}
 \item{mLWZ}{change model with number of breaks selected by LWZ}
 \item{mKT}{change model with number of breaks selected by KT}
 }
+}
 \description{
-\code{doorder()} estimates the number of breaks
-using one of the following information criteria:
-\itemize{\item modified Bayesian information criterion by Kurozumi and Tuvaandorj, 2011,
-\item modified Schwarz information criterion by Liu, Wu and Zidek, 1997,
-\item Bayesian information criterion by Yao, 1988 } and the structural break model
-corresponding to estimated number of breaks
+`doorder()` estimates the number of breaks
+ using one of the following information criteria:
+\itemize{
+ \item modified Bayesian information criterion by Kurozumi and Tuvaandorj, 2011,
+ \item modified Schwarz information criterion by Liu, Wu and Zidek, 1997,
+ \item Bayesian information criterion by Yao, 1988} 
+ and the structural break model corresponding to estimated number of breaks.
 }
 \examples{
 doorder('rate',data=real,ic=c('BIC'))

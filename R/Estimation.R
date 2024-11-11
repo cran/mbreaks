@@ -17,17 +17,17 @@
 #'@param m number of breaks
 #'@param b vector of break dates
 #'@param robust,hetomega,hetq,hetdat,hetvar options for assumptions on the error terms.
-#'For more details, please refer to [mdl()].
+#'For more details, please refer to \code{\link{mdl}}.
 #'@param prewhit option to use prewhitening process based on AR(1) approximation
 #'@return A list containing the following components:
-#'\itemize{
-#'\item{date} {List of estimated breaks}
-#'\item{CI} {List of Confidence Intervals for each corresponding break}
-#'\item{beta} {Estimated coefficients of the regression. The first
+#'\describe{
+#'\item{date}{List of estimated breaks.}
+#'\item{CI}{List of Confidence Intervals for each corresponding break.}
+#'\item{beta}{Estimated coefficients of the regression. The first
 #'(\code{m}+1)*\code{q} are coefficients of \code{q} variables \code{z} that change across regimes.
 #'The last \code{p} are coefficients of \code{p} variables \code{x}
-#'that are constant across regimes}
-#'\item{SE} {Corrected standard errors for the coefficients' estimates}}
+#'that are constant across regimes.}
+#'\item{SE}{Corrected standard errors for the coefficients' estimates}}
 #'@export
 
 estim = function(m,q,z,y,b,robust,prewhit,hetomega,hetq,x,p,hetdat,hetvar){

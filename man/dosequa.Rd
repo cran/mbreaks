@@ -29,37 +29,37 @@ dosequa(
 \arguments{
 \item{y_name}{name of dependent variable in the data set}
 
-\item{z_name}{name of independent variables in the data set which coefficients are allowed to change
-across regimes. \code{default} is vector of 1 (Mean-shift model)}
+\item{z_name}{name of independent variables in the data set, which coefficients are allowed to change
+across regimes. Default value is vector of 1 (Mean-shift model).}
 
-\item{x_name}{name of independent variables in the data set which coefficients are constant across
-regimes. \code{default} is \code{NULL}}
+\item{x_name}{name of independent variables in the data set, which coefficients are constant across
+regimes. Default value is \code{NULL}.}
 
-\item{data}{name of data set used}
+\item{data}{name of the data set used}
 
-\item{m}{Maximum number of structural changes allowed. If not specify,
-m will be set to \code{default} value matching \code{eps1} input}
+\item{m}{maximum number of breaks}
 
 \item{eps}{convergence criterion for iterative recursive computation}
 
 \item{eps1}{value of trimming (in percentage) for the construction
-and critical values. Minimal segment length \code{h} will be set
-at \code{default} = int(\code{eps1}*T) (T is total sample size).
+and critical values. Minimal segment length `h` will be set
+at default value = \code{int(eps1 * T)} (T is total sample size).
+There are five options:
 \itemize{
-\item
-\item{\code{eps1=0.05} Maximal value of \code{m} = 10}
-\item{\code{eps1=0.10} Maximal value of \code{m} = 8}
-\item{\code{eps1=.15} Maximal value of \code{m} = 5}
-\item{\code{eps1=.20} Maximal value of \code{m} = 3}
-\item{\code{eps1=.25} Maximal value of \code{m} = 2}
-\item{\code{eps1=0} This option is not allowed}}}
+  \item \code{eps1 = 0.05} Maximal value of \code{m} = 10.
+  \item \code{eps1 = 0.10} Maximal value of \code{m} = 8.
+  \item \code{eps1 = 0.15} Maximal value of \code{m} = 5.
+  \item \code{eps1 = 0.20} Maximal value of \code{m} = 3.
+  \item \code{eps1 = 0.25} Maximal value of \code{m} = 2.
+  \item \code{eps1 = 0} This option is not allowed.
+}}
 
 \item{maxi}{maximum number of iterations}
 
 \item{fixb}{option to use fixed initial input \eqn{\beta}. If \code{1},
-the model will use values given in \code{betaini}. If \code{0}, betaini is skipped}
+the model will use values given in \code{betaini}. If \code{0}, \code{betaini} is skipped}
 
-\item{betaini}{Initial \eqn{beta_0} to use in estimation}
+\item{betaini}{Initial \eqn{\beta_0} to use in estimation}
 
 \item{printd}{Print option for model estimation. \code{default} = 0, to
 suppress intermediate outputs printing to console}
@@ -68,51 +68,51 @@ suppress intermediate outputs printing to console}
 the long run covariance matrix.}
 
 \item{robust}{set to \code{1} to allow for heterogeneity
-and autocorrelation in the residuals, \code{0} otherwise.
+and autocorrelation in the residuals, \code{0} otherwise. 
 The method used is \emph{Andrews(1991)} automatic bandwidth with AR(1) approximation with quadratic
 kernel. Note: Do not set to \code{1} if lagged dependent variables are
 included as regressors.}
 
-\item{hetdat}{option for the construction of the F tests. Set to 1 if want to
-allow different moment matrices of the regressors across segments.
+\item{hetdat}{option for the construction of the F tests. Set to 1 if you want to
+allow different moment matrices of the regressors across segments. 
 If \code{hetdat} = \code{0}, the same moment matrices are assumed for each segment
-and estimated from the ful sample. It is recommended to set
-\code{hetdat}=\code{1} if number of regressors \code{x} > \code{0}.}
+and estimated from the full sample. It is recommended to set
+\code{hetdat = 1} if number of regressors \code{x} > \code{0}.}
 
-\item{hetvar}{option for the construction of the F tests.Set to \code{1}
+\item{hetvar}{option for the construction of the F tests. Set to \code{1}
 if users want to allow for the variance of the residuals to be different across segments.
-If \code{hetvar}=\code{0}, the variance of the residuals is assumed constant
-across segments and constructed from the full sample. \code{hetvar}=\code{1} when \code{robust} =\code{1})}
+If \code{hetvar} = \code{0}, the variance of the residuals is assumed constant
+across segments and constructed from the full sample. \code{hetvar} = \code{1} when \code{robust} = \code{1}}
 
 \item{hetq}{used in the construction of the confidence intervals for the break
-dates. If \code{hetq}=\code{0}, the moment matrix of the data is assumed identical
-across segments}
+dates. If \code{hetq} = \code{0}, the moment matrix of the data is assumed identical
+across segments.}
 
 \item{hetomega}{used in the construction of the confidence intervals for the break
-dates. If \code{hetomega}=\code{0}, the long run covariance matrix of zu is
-assumed identical across segments
-(the variance of the errors u if \code{robust}={0})}
+dates. If \code{hetomega} = \code{0}, the long run covariance matrix of zu is
+assumed identical across segments (the variance of the errors u if \code{robust} = 0).}
 
-\item{const}{indicates whether the regression model include an
+\item{const}{indicates whether the regression model includes an
 intercept changing across regimes. Default value is 1}
 
-\item{signif}{significance level used to sequential test to select number of breaks.
+\item{signif}{significance level used in the sequential test to select number of breaks.
 \itemize{
-\item 4: 1\% level
-\item 3: 2.5\% level
-\item 2: 5\% level
-\item 1: 10\% level
+  \item 4: 1\% level
+  \item 3: 2.5\% level
+  \item 2: 5\% level
+  \item 1: 10\% level
 }}
 }
 \value{
-out A list of \code{model} class with number of breaks selected by sequential tests
+A list of `model` class with the number of breaks selected by sequential tests.
 }
 \description{
-\code{dosequa()} sequentially increases the number of breaks from \code{1} to \code{m}
+`dosequa()` sequentially increases the number of breaks from `1` to `m`
 until the sequential tests reject and estimate the structural change model
 with corresponding estimated breaks. The procedure is proposed by
-Bai and Perron, 1998
+Bai and Perron, 1998.
 }
 \examples{
-dosequa('rate',data=real,signif=1)
+dosequa('rate', data = real, signif = 1)
+
 }

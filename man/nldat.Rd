@@ -17,9 +17,9 @@ nldat(y, z, x, h, m, p, q, bigT, fixb, eps, maxi, betaini, printd)
 
 \item{m}{number of breaks}
 
-\item{p}{number of \code{z} regressors}
+\item{p}{number of `z` regressors}
 
-\item{q}{number of \code{x} regressors}
+\item{q}{number of `x` regressors}
 
 \item{bigT}{the sample size T}
 
@@ -42,12 +42,12 @@ A list containing the following components:
 \item{bigvec}{Associated SSRs}
 }
 \description{
-\code{nldat()} computes the break dates of a partial structural change model
-for a pre-specified number of breaks \code{m}. The procedure iterates between
-estimating the invariant and changing coefficients of \code{x} and \code{z} regressors
+`nldat()` computes the break dates of a partial structural change model
+for a pre-specified number of breaks `m`. The procedure iterates between
+estimating the invariant and changing coefficients of `x` and `z` regressors
 until convergence, by noting that the residuals from linear regression model between
-\code{y} and \code{x} regressors is a pure structural change model,
-while the residuals from pure structural change model between \code{y} and \code{z} regressors
+`y` and `x` regressors is a pure structural change model,
+while the residuals from pure structural change model between `y` and `z` regressors
 is a linear regression
 }
 \references{

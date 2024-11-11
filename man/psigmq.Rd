@@ -11,14 +11,14 @@ psigmq(res, b, q, m, nt)
 
 \item{b}{Estimated date of changes}
 
-\item{q}{Number of \code{z} regressors}
+\item{q}{Number of `z` regressors}
 
 \item{m}{Number of breaks}
 
-\item{nt}{The size of \code{z} regressors}
+\item{nt}{The size of `z` regressors}
 }
 \value{
-sigmat (\code{m}+1)x(\code{m}+1) diagonal matrix with i-th entry
+sigmat (`m`+1)x(`m`+1) diagonal matrix with i-th entry
 equal to estimated variance of regime i
 }
 \description{

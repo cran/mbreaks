@@ -13,11 +13,11 @@ interval(y, z, zbar, b, q, m, robust, prewhit, hetomega, hetq, x, p)
 across regimes}
 
 \item{zbar}{partitioned matrix of independent variables with coefficients allowed
-to change across regimes according to break date vector \code{b}}
+to change across regimes according to break date vector `b`}
 
 \item{b}{vector of break breaks}
 
-\item{q}{number of \code{z} regressors}
+\item{q}{number of `z` regressors}
 
 \item{m}{maximum number of breaks}
 
@@ -31,19 +31,19 @@ included as regressors.}
 process will be used to filter. If \code{0}, skipped the filtering process}
 
 \item{hetomega, hetq}{options for assumptions of error terms
-structure. For more details, refers to \code{\link[=mdl]{mdl()}}}
+structure. For more details, refers to [mdl()]}
 
 \item{x}{matrix of independent variables with coefficients constant
 across regimes}
 
-\item{p}{number of \code{x} regressors}
+\item{p}{number of `x` regressors}
 }
 \value{
 bound Confidence intervals of break date in \code{90\%} and \code{95\%}
 significant level
 }
 \description{
-\code{interval()} computes confidence intervals for the break dates based on
+`interval()` computes confidence intervals for the break dates based on
 approximating the limiting distribution of the break date following
 the "shrinking shifts" asymptotic framework
 }

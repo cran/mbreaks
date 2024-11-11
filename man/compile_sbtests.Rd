@@ -2,29 +2,25 @@
 % Please edit documentation in R/Procedures.R
 \name{compile_sbtests}
 \alias{compile_sbtests}
-\title{Compile the output of Sup Wald test}
+\title{Compile the Output of Sup Wald Test}
 \usage{
 compile_sbtests(x, digits = 3)
 }
 \arguments{
-\item{x}{\code{sbtests} class object}
+\item{x}{An `sbtests` class object.}
 
-\item{digits}{number of decimal places displayed}
+\item{digits}{The number of decimal places displayed.}
 }
 \value{
-class \code{sbtests} x with appended 2 data frames:
-\itemize{
-\item{supF1 A data frame contains SupF tests statistics of \code{0} versus \code{m} breaks, where
-\code{m} is maximum number of breaks considered in \code{x} with critical values at
-\verb{\{10\%,5\%,2.5\%,1\%\}} level}
-\item{UDMax A data frame contains Double Max test statistics with with critical values at
-\verb{\{10\%,5\%,2.5\%,1\%\}} level}
+A modified `sbtests` object, `x`, with two appended data frames:
+\describe{
+  \item{supF1}{A data frame containing SupF test statistics for testing 0 versus m breaks,
+    where m is the maximum number of breaks considered in `x`. It includes critical values
+    at the \emph{10\%, 5\%, 2.5\%, and 1\%} levels.}
+  \item{UDMax}{A data frame containing Double Max test statistics with critical values
+    at the \emph{10\%, 5\%, 2.5\%, and 1\%} levels.}
 }
 }
 \description{
-\code{compile_sbtests} formats the output of the \code{sbtests} into 2 tables
-\itemize{
-\item supF1 table containing Sup F tests of \code{0} versus \code{1} to \code{m} breaks
-with critical values of the corresponding tests
-\item}
+`compile_sbtests` formats the output of `sbtests` into two tables.
 }

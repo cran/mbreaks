@@ -18,7 +18,7 @@ process will be used to filter. If \code{0}, skipped the filtering process}
 hac Heteroskedasticy and autocorrelation consistent errors
 }
 \description{
-\code{hac()} corrects the estimated errors based on options of prewhitening
+`hac()` corrects the estimated errors based on options of prewhitening
 using a AR(1) process estimation of error terms to obtain
 heteroskedasticy and autocorrelation consistency (HAC) errors with automatic
 bandwith and kernel similar to Andrews, 1994

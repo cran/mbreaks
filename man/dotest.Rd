@@ -47,7 +47,7 @@ regimes.}
 \item{fixb}{option to use fixed initial input \eqn{\beta}. If \code{1},
 the model will use values given in \code{betaini}. If \code{0}, betaini is skipped}
 
-\item{betaini}{Initial \eqn{beta_0} to use in estimation (Must be a \verb{p x 1} matrix, where p is number of x variables)}
+\item{betaini}{Initial \eqn{beta_0} to use in estimation (Must be a `p x 1` matrix, where p is number of x variables)}
 
 \item{printd}{Print option for model estimation. \code{default} = 0, to
 suppress intermediate outputs printing to console}
@@ -78,26 +78,26 @@ across segments}
 \item{hetomega}{used in the construction of the confidence intervals for the break
 dates. If \code{hetomega}=\code{0}, the long run covariance matrix of zu is
 assumed identical across segments
-(the variance of the errors u if \code{robust}={0})}
+(the variance of the errors u if \code{robust}=\code{0})}
 
 \item{const}{indicates whether the regression model include an
 intercept changing across regimes. Default value is 1}
 }
 \value{
 A list that contains following:
-\itemize{
-\item{ftest: SupF test of 0 vs m (1 to maximum) breaks statistics}
-\item{cv_supF: Critical values for Sup F test }
-\item{cv_Dmax: Critical values for Double Max test}
-\item{supF1: table summarizing the SupF test (for viewing purposes)}
-\item{UDMax: table summarizing the Double Max test (including UDMax statistics and CVs)}
+\describe{
+\item{ftest}{SupF test of 0 vs m (1 to maximum) breaks statistics}
+\item{cv_supF}{Critical values for Sup F test }
+\item{cv_Dmax}{Critical values for Double Max test}
+\item{supF1}{table summarizing the SupF test (for viewing purposes)}
+\item{UDMax}{table summarizing the Double Max test (including UDMax statistics and CVs)}
 }
 }
 \description{
-\code{dotest()} compute the test statistics and report the critical values of
+`dotest()` compute the test statistics and report the critical values of
 the 2 main supF tests below:
 \itemize{
-\item{SupF test of 0 vs m breaks}
-\item{Double Max test proposed by Perron and Bai, 1998}
+\item SupF test of 0 vs m breaks
+\item Double Max test proposed by Perron and Bai, 1998
 }
 }

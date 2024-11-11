@@ -7,19 +7,19 @@
 \method{print}{seqtests}(x, ...)
 }
 \arguments{
-\item{x}{\code{seqtests} class object.}
+\item{x}{`seqtests` class object.}
 
 \item{...}{further arguments passed to or from other methods.}
 }
 \value{
-No return value, only for printing formatted \code{seqtests} class object to console
+No return value, only for printing formatted `seqtests` class object to console
 }
 \description{
-\code{print} prints the object of class \code{seqtests} with the following information
+`print` prints the object of class `seqtests` with the following information
 \itemize{
-\item Maximum number of breaks \code{m} in the tests
-\item \code{sfl} table with sequential sup F tests statistics of l versus
-l+1 breaks up to \code{m} breaks}
+\item Maximum number of breaks `m` in the tests
+\item `sfl` table with sequential sup F tests statistics of l versus
+l+1 breaks up to `m` breaks}
 }
 \examples{
 seq_supF = doseqtests('inf','inflag',data=nkpc)

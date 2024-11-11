@@ -5,12 +5,10 @@
 \alias{real}
 \title{World Health Organization TB data}
 \format{
-\subsection{\code{real}}{
-
+## `real`
 A data frame with 103 rows and 1 column:
 \describe{
-\item{rate}{Real exchange rate}
-}
+  \item{rate}{Real exchange rate}
 }
 }
 \source{
